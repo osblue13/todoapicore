@@ -11,8 +11,11 @@ The values are stored in a Redis database, which is hosted in another container.
     docker build -t <yourusername>/imagename .
 Build the docker image
 
+    docker network create --driver bridge yournetwork_name
+Create a network to run our environment in
+
     docker run -d -p 8080:5000 --net=yournetwork_name --name container_name imagename
-Run the container in the same network as the redis container
+Run the app container in the network set up above
 
     docker pull redis
     docker run --net=yournetwork_name --name=redis redis
