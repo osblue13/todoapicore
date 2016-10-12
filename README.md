@@ -11,5 +11,9 @@ The values are stored in a Redis database, which is hosted in another container.
     docker build -t <yourusername>/imagename .
 Build the docker image
 
-    docker run -d -p 8080:5000 --link yourrediscontainer:redis imagename
-Run the container by linking it to your redis container
+    docker run -d -p 8080:5000 --net=yournetwork_name --name container_name imagename
+Run the container in the same network as the redis container
+
+    docker pull redis
+    docker run --net=yournetwork_name --name=redis redis
+Run the redis container in the same network. Make sure to set the name of the container as 'redis'
