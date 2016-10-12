@@ -6,10 +6,14 @@ The values are stored in a Redis database, which is hosted in another container.
 
 # Getting started
 
-    cd src/TodoApiCore
-    
+Get the docker image by following 1st option or 2nd option
+
+    docker pull osblue13/todoapicore
+1st option - pull from docker hub    
+
+    cd src/TodoApiCore    
     docker build -t <yourusername>/imagename .
-Build the docker image
+2nd option - Build the docker image
 
     docker network create --driver bridge yournetwork_name
 Create a network to run our environment in
