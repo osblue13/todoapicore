@@ -32,3 +32,12 @@ Run the app container in the network set up above
     docker pull redis
     docker run --net=yournetwork_name --name=redis redis
 Run the redis container in the same network. Make sure to set the name of the container as 'redis'
+
+## App
+Access the swagger definition at http://192.168.99.100:8080/swagger/ui to verify everything is working. 
+
+## API Manager
+Access the API manager at:
+https://192.168.99.100:9443/store/ - store
+https://192.168.99.100:9443/store/ - publisher
+https://192.168.99.100:9443/store/ - admin console
