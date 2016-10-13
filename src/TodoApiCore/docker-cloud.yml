@@ -1,0 +1,21 @@
+todoapp:
+    image: osblue13/todoapicore:latest
+    links:
+        - redis:redis
+    ports:
+        - "8080:5000"
+    tags:
+        - test
+wsoam191:
+    image: isim/wso2apim:latest
+    links: 
+        - todoapp
+    ports:
+        - "9443:9443"
+        - "9736:9736"
+        - "8243:8243"
+        - "8280:8280"
+        - "10397:10397"
+        - "7711:7711"
+redis:
+    image: redis:latest

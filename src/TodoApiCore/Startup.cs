@@ -38,6 +38,9 @@ namespace TodoApiCore
 
             // Add Dependency Injections
             services.AddSingleton<ITodoRepository, TodoRepository>();
+
+            // Inject an implementation of ISwaggerProvider with defaulted settings applied
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -51,6 +54,12 @@ namespace TodoApiCore
             app.UseApplicationInsightsExceptionTelemetry();
 
             app.UseMvc();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+            app.UseSwaggerUi();
         }
     }
 }
