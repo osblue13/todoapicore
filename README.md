@@ -7,6 +7,13 @@ The values are stored in a Redis database, which is hosted in another container.
 # Getting started
 
     cd src/TodoApiCore
+
+## Easy way
+
+    docker-compose up
+This will build the images and bring up the containers.
+
+## The hard way
     
     docker build -t <yourusername>/imagename .
 Build the docker image

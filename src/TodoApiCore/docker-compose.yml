@@ -1,0 +1,21 @@
+version: '2'
+
+services:
+    apicoreapp:
+        build:
+            context: .
+            dockerfile: DockerFile
+        ports:
+            - "8080:5000"
+        networks:
+            - apicore-network
+
+    redisdb:
+        image: redis 
+        networks:
+            - apicore-network
+        container_name: redis
+
+networks:
+    apicore-network:
+        driver: bridge

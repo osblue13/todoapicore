@@ -1,16 +1,5 @@
 FROM microsoft/dotnet:latest
 
-#COPY src/TodoApiCore/bin/Debug/netcoreapp1.0/publish /root/
-#WORKDIR /root/
-
-#RUN ["dotnet", "restore"]
-#RUN ["dotnet", "build"]
-
-#EXPOSE 5000/tcp
-#ENV ASPNETCORE_URLS http://*:5000
-
-#ENTRYPOINT dotnet /root/TodoApiCore.dll
-
 COPY . /app
 WORKDIR /app
 
@@ -21,3 +10,14 @@ EXPOSE 5000/tcp
 ENV ASPNETCORE_URLS http://*:5000
 
 ENTRYPOINT ["dotnet", "run", "--server.urls", "http://*:5000"]
+
+#COPY src/TodoApiCore/bin/Debug/netcoreapp1.0/publish /root/
+#WORKDIR /root/
+
+#RUN ["dotnet", "restore"]
+#RUN ["dotnet", "build"]
+
+#EXPOSE 5000/tcp
+#ENV ASPNETCORE_URLS http://*:5000
+
+#ENTRYPOINT dotnet /root/TodoApiCore.dll
