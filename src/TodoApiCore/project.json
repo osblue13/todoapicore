@@ -18,7 +18,8 @@
     "Microsoft.Extensions.Options.ConfigurationExtensions": "1.0.0",
     "Swashbuckle": "6.0.0-beta902",
     "StackExchange.Redis": "1.1.608",
-    "Newtonsoft.Json": "9.0.2-beta1"
+    "Newtonsoft.Json": "9.0.2-beta1",
+    "NEST": "2.4.6"
   },
 
   "tools": {

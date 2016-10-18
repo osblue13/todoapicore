@@ -12,5 +12,7 @@ namespace TodoApiCore.Models
         TodoItem Find(string key);
         void Remove(string key);
         void Update(TodoItem item);
+
+        void LogToRedis(string value);
     }
 }

@@ -4,8 +4,6 @@ todoapp:
         - redis:redis
     ports:
         - "8080:5000"
-    tags:
-        - test
 wsoam191:
     image: isim/wso2apim:latest
     links: 

@@ -41,7 +41,7 @@ namespace TodoApiCore.Models
             _db = _redis.GetDatabase();
 
             Add(new TodoItem { Name = "Add Redis Support" });
-            Add(new TodoItem { Name = "Connect to a different container" });            
+            Add(new TodoItem { Name = "Connect to a different container" });
         }
 
         public IEnumerable<TodoItem> GetAll()
@@ -86,6 +86,19 @@ namespace TodoApiCore.Models
 
         public void Update(TodoItem item)
         {
+            _db.HashSet(_redisHashKey, item.Key, JsonConvert.SerializeObject(item));
+        }
+
+        public void LogToRedis(string value)
+        {
+            TodoItem item = new TodoItem
+            {
+                Key = Guid.NewGuid().ToString(),
+                Name = value.ToString(),
+                IsComplete = false
+
+            };
+            
             _db.HashSet(_redisHashKey, item.Key, JsonConvert.SerializeObject(item));
         }
 
