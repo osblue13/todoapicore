@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TodoApiCore.Models;
 using Nest;
+using Microsoft.AspNetCore.Authorization;
 
 //http://192.168.99.100:9200/"
 
@@ -22,7 +23,7 @@ namespace TodoApiCore.Controllers
         {
             TodoItems = todoItems;   
         }
-
+        
         [HttpGet]
         public IEnumerable<TodoItem> GetAll()
         {
@@ -32,6 +33,7 @@ namespace TodoApiCore.Controllers
             return TodoItems.GetAll();
         }
 
+        [Authorize]
         [HttpGet("{id}", Name = "GetTodo")]
         public IActionResult GetById(string id)
         {

@@ -2,6 +2,7 @@ todoapp:
     image: osblue13/todoapicore:latest
     links:
         - redis:redis
+        - elk:elk
     ports:
         - "8080:5000"
 wsoam191:
@@ -17,3 +18,11 @@ wsoam191:
         - "7711:7711"
 redis:
     image: redis:latest
+
+elk:
+    image: sebp/elk:latest
+    ports:
+        - "5601:5601"
+        - "9200:9200"
+        - "5044:5044"
+        - "5000:5000"

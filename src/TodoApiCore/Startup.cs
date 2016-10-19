@@ -53,6 +53,12 @@ namespace TodoApiCore
 
             app.UseApplicationInsightsExceptionTelemetry();
 
+            var options = new JwtBearerOptions
+            {
+                Audience = Configuration["auth0:clientId"],
+                Authority = $"https://{Configuration["auth0:domain"]}/"
+            };
+            app.UseJwtBearerAuthentication(options);
             app.UseMvc();
 
             // Enable middleware to serve generated Swagger as a JSON endpoint
