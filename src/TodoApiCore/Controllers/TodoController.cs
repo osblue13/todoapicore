@@ -23,7 +23,8 @@ namespace TodoApiCore.Controllers
         {
             TodoItems = todoItems;   
         }
-        
+
+        [Authorize]
         [HttpGet]
         public IEnumerable<TodoItem> GetAll()
         {

@@ -55,8 +55,8 @@ namespace TodoApiCore
 
             var options = new JwtBearerOptions
             {
-                Audience = Configuration["auth0:clientId"],
-                Authority = $"https://{Configuration["auth0:domain"]}/"
+                Audience = Configuration["auth0:ClientId"],
+                Authority = $"https://{Configuration["auth0:Domain"]}/"
             };
             app.UseJwtBearerAuthentication(options);
             app.UseMvc();

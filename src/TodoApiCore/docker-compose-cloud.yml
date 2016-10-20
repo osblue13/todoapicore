@@ -1,12 +1,21 @@
 version: '2'
 
 services:
-    apicoreapp:
+    todoapi:
         image: osblue13/todoapicore:latest
         ports:
-            - "8080:5000"
+            - "50118:50118"
         networks:
             - apicore-network
+        container_name: todoapi
+
+    todoapp:
+        image: osblue13/todoapp:latest
+        ports:
+            - "60856:60856"
+        networks:
+            - apicore-network
+        container_name: todoapp
 
     redisdb:
         image: redis:latest

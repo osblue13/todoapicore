@@ -6,10 +6,10 @@ WORKDIR /app
 RUN ["dotnet", "restore"]
 RUN ["dotnet", "build"]
 
-EXPOSE 5000/tcp
-ENV ASPNETCORE_URLS http://*:5000
+EXPOSE 50118/tcp
+ENV ASPNETCORE_URLS http://*:50118
 
-ENTRYPOINT ["dotnet", "run", "--server.urls", "http://*:5000"]
+ENTRYPOINT ["dotnet", "run", "--server.urls", "http://*:50118"]
 
 #COPY src/TodoApiCore/bin/Debug/netcoreapp1.0/publish /root/
 #WORKDIR /root/

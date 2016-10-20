@@ -12,33 +12,14 @@ namespace TodoApiCore.Models
 {
     public class TodoRepository : ITodoRepository
     {
-        private static ConcurrentDictionary<string, TodoItem> _todos = new ConcurrentDictionary<string, TodoItem>();   
+        private static ConcurrentDictionary<string, TodoItem> _todos = new ConcurrentDictionary<string, TodoItem>();
         private static ConnectionMultiplexer _redis;
         private static IDatabase _db;
         private static string _redisHashKey = "todoitems";
 
         public TodoRepository()
         {
-            // connection by name currently does not work with redis and .net core therefore we have to explictly set the ip 
-            // see https://github.com/StackExchange/StackExchange.Redis/issues/410 for issue and workaround
-
-            ConfigurationOptions config = ConfigurationOptions.Parse("redis");
-
-            DnsEndPoint addressEndpoint = config.EndPoints.First() as DnsEndPoint;
-            int port = addressEndpoint.Port;
-
-            bool isIp = IsIpAddress(addressEndpoint.Host);
-            if (!isIp)
-            {
-                //Please Don't use this line in blocking context. Please remove ".Result"
-                //Just for test purposes
-                IPHostEntry ip = Dns.GetHostEntryAsync(addressEndpoint.Host).Result;
-                config.EndPoints.Remove(addressEndpoint);
-                config.EndPoints.Add(ip.AddressList.First(), port);
-            }
-
-            _redis = ConnectionMultiplexer.Connect(config);
-            _db = _redis.GetDatabase();
+            SetupRedisConnection();
 
             Add(new TodoItem { Name = "Add Redis Support" });
             Add(new TodoItem { Name = "Connect to a different container" });
@@ -46,7 +27,7 @@ namespace TodoApiCore.Models
 
         public IEnumerable<TodoItem> GetAll()
         {
-            Dictionary<string, TodoItem> todos = new Dictionary<string, TodoItem>();            
+            Dictionary<string, TodoItem> todos = new Dictionary<string, TodoItem>();
             var result = _db.HashGetAll(_redisHashKey);
 
             foreach (var item in result)
@@ -70,7 +51,7 @@ namespace TodoApiCore.Models
         public TodoItem Find(string key)
         {
             return JsonConvert.DeserializeObject<TodoItem>(_db.StringGet(key));
-                        
+
             //_todos.TryGetValue(key, out item);
             //return item;
         }
@@ -98,16 +79,45 @@ namespace TodoApiCore.Models
                 IsComplete = false
 
             };
-            
+
             _db.HashSet(_redisHashKey, item.Key, JsonConvert.SerializeObject(item));
         }
 
-        bool IsIpAddress(string host)
+        private bool IsIpAddress(string host)
         {
             string ipPattern = @"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b";
             return Regex.IsMatch(host, ipPattern);
         }
 
+        private void SetupRedisConnection()
+        {
+            // connection by name currently does not work with redis and .net core therefore we have to explictly set the ip 
+            // see https://github.com/StackExchange/StackExchange.Redis/issues/410 for issue and workaround
+
+            ConfigurationOptions config = ConfigurationOptions.Parse("redis");
+
+            try
+            {
+                DnsEndPoint addressEndpoint = config.EndPoints.First() as DnsEndPoint;
+                int port = addressEndpoint.Port;
+
+                bool isIp = IsIpAddress(addressEndpoint.Host);
+                if (!isIp)
+                {
+                    //Please Don't use this line in blocking context. Please remove ".Result"
+                    //Just for test purposes
+                    IPHostEntry ip = Dns.GetHostEntryAsync(addressEndpoint.Host).Result;
+                    config.EndPoints.Remove(addressEndpoint);
+                    config.EndPoints.Add(ip.AddressList.First(), port);
+                }
+            }
+            catch (Exception ex)
+            {
+
+            }
+
+            _redis = ConnectionMultiplexer.Connect(config);
+            _db = _redis.GetDatabase();
+        }
     }
-    
 }
